@@ -1,0 +1,59 @@
+﻿category,variable,description,formula_or_rule,base,v10,v2,v3,v4,v5,v6,v7,v8,v9
+raw,ex_dura,원본 운동 시간,-,Y,Y,Y,Y,Y,Y,Y,,Y,Y
+raw,body_temp,원본 체온(화씨),-,Y,Y,Y,Y,Y,,Y,,,Y
+raw,bpm,원본 심박수,-,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y
+raw,height_feet,원본 키(feet),-,,Y,,,,,Y,,,Y
+raw,height_inche,원본 키(inch),-,,Y,,,,,Y,,,Y
+raw,weight_lb,원본 몸무게(lb),-,,Y,,,,,Y,,,Y
+raw/categorical,weight_status,체중 상태 범주,원본/사전구간화,,Y,Y,Y,Y,Y,Y,,,Y
+raw/categorical,gender,성별,원본,Y,Y,Y,Y,Y,Y,Y,,Y,Y
+raw,age,나이,-,Y,Y,Y,Y,Y,,Y,Y,Y,Y
+derived/categorical,age_section,연령대 구간,20대/30대/...,,Y,,,,,Y,,,Y
+derived/basic,height_cm,키(cm),height_feet*30.48 + height_inche*2.54,Y,,Y,Y,Y,,Y,Y,Y,
+derived/basic,weight_kg,몸무게(kg),weight_lb*0.453592,Y,,Y,Y,Y,,Y,,,
+derived/basic,body_temp_c,체온(℃),(body_temp-32)*5/9,,,,Y,Y,,Y,,,
+derived/basic,bmi,체질량지수,weight_kg / (height_cm/100)^2,Y,Y,,,,,Y,Y,Y,Y
+derived/categorical,bmi_category,BMI 범주,정상/과체중,,,,,,,Y,,,
+derived/basic,bsa,체표면적(BSA),sqrt(height_cm*weight_kg/3600),,,,,,,Y,,,
+derived/basic,max_hr,추정 최대심박수,220 - age,,,,,,,Y,Y,Y,
+derived/basic,hr_ratio,심박비율,bpm / max_hr,Y,,Y,Y,Y,Y,Y,Y,Y,
+derived/engineered,activity_proxy,운동강도 대리변수,hr_ratio * ex_dura * weight_kg,,,,,,,Y,,,
+derived/engineered,bsa_intensity_time,체표면적 반영 강도-시간 지표,bsa * hr_ratio * ex_dura,,Y,Y,Y,Y,,Y,Y,Y,Y
+derived/engineered,bpm_per_kg,체중당 심박수,bpm / weight_kg,,,Y,Y,Y,,Y,,,
+derived/engineered,hr_load_per_kg,체중당 심박부하,bpm * ex_dura / weight_kg,,,,,Y,,Y,Y,Y,
+derived/engineered,hr_load_per_bsa,체표면적당 심박부하,bpm * ex_dura / bsa,,,,,Y,,Y,Y,Y,
+derived/engineered,hr_load_short,단시간 운동 부하,(1~6분 구간) bpm*ex_dura,,,,,Y,,Y,Y,Y,
+derived/engineered,hr_load_mid,중간시간 운동 부하,(7~17분 구간) bpm*ex_dura,,,,,Y,,Y,Y,Y,
+derived/engineered,hr_load_long,장시간 운동 부하,(18~30분 구간) bpm*ex_dura,,,,,Y,,Y,Y,Y,
+derived/indicator,high_load_male,고부하 남성 여부,관측상 gender=M & bpm>=110 & ex_dura>=16,,,,,,Y,Y,,,
+derived/engineered,hr_load_high,고부하 운동 부하,"high_load_male 조건일 때 bpm*ex_dura, 아니면 0",,,,,,Y,Y,Y,Y,
+derived/basic,temp_diff,정상체온 대비 상승분,body_temp - 101.7,,,,,,,Y,Y,Y,
+derived/engineered,temp_per_kg,체중당 체온상승,temp_diff / weight_kg,,,Y,Y,Y,Y,Y,,,
+derived/engineered,exercise_stress_index,운동 스트레스 지수,hr_ratio * temp_diff * ex_dura,,,Y,Y,Y,Y,Y,Y,Y,
+derived/transform,log_exercise_stress_index,exercise_stress_index 로그변환,log1p(exercise_stress_index),Y,,,,,,Y,,,
+derived/transform,log_bsa_intensity_time,bsa_intensity_time 로그변환,log1p(bsa_intensity_time),Y,,,,,,Y,,,
+derived/engineered,temp_rise_rate,분당 체온상승률,temp_diff / ex_dura,,,,,,,Y,Y,Y,
+derived/engineered,heat_accumulation,누적 열부하,temp_diff * ex_dura,,,,,,,Y,,,
+derived/engineered,heat_load_per_mass,체중당 열부하,temp_diff * ex_dura / weight_kg,,,,,,,Y,,,
+derived/engineered,hr_efficiency,시간 대비 심박비율,hr_ratio / ex_dura,,,,,,,Y,Y,Y,
+derived/engineered,cardio_load,심혈관 부하 지표,hr_load_per_kg와 동일 값,,,,,,,Y,,,
+derived/transform,hr_ratio_sq,심박비율 제곱항,hr_ratio^2,,,,,,,Y,,,
+derived/transform,temp_diff_sq,체온상승 제곱항,temp_diff^2,,,,,,,Y,Y,Y,
+derived/transform,log_duration,운동시간 로그변환,log1p(ex_dura),,,,,,,Y,Y,,
+derived/engineered,heat_per_surface,체표면적당 열부하,heat_accumulation / bsa,,,,,,,Y,,,
+derived/engineered,metabolic_load,대사부하 지표,exercise_stress_index * weight_kg,,,,,,,Y,,,
+derived/transform,log_metabolic_load,metabolic_load 로그변환,log1p(metabolic_load),,,,,,,Y,Y,Y,
+derived/interaction,hr_ratio_x_temp_diff,상호작용항,hr_ratio * temp_diff,,,,,,,Y,,,
+derived/interaction,hr_ratio_x_ex_dura,상호작용항,hr_ratio * ex_dura,,,,,,,Y,,,
+derived/interaction,hr_ratio_x_weight_kg,상호작용항,hr_ratio * weight_kg,,,,,,,Y,Y,Y,
+derived/interaction,hr_ratio_x_bsa,상호작용항,hr_ratio * bsa,,,,,,,Y,,,
+derived/interaction,temp_diff_x_ex_dura,상호작용항,temp_diff * ex_dura,,,,,,,Y,,,
+derived/interaction,temp_diff_x_weight_kg,상호작용항,temp_diff * weight_kg,,,,,,,Y,,,
+derived/interaction,temp_diff_x_bsa,상호작용항,temp_diff * bsa,,,,,,,Y,,,
+derived/interaction,ex_dura_x_weight_kg,상호작용항,ex_dura * weight_kg,,,,,,,Y,,,
+derived/interaction,ex_dura_x_bsa,상호작용항,ex_dura * bsa,,,,,,,Y,,,
+derived/interaction,weight_kg_x_bsa,상호작용항,weight_kg * bsa,,,,,,,Y,,,
+derived/custom,age_gen_corr,연령-성별 보정 파생변수,사용자 정의 보정식,,,,,,,Y,,,
+derived/transform,log_age_gen_corr,age_gen_corr 로그변환,log1p(age_gen_corr),,,,,,,Y,,,
+derived/transform,sqrt_age_gen_corr,age_gen_corr 제곱근변환,sqrt(age_gen_corr),,,,Y,Y,Y,Y,Y,Y,
+target,calories_burned,예측 타깃,-,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y

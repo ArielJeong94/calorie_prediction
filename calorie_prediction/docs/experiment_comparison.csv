@@ -1,0 +1,12 @@
+﻿phase,notebook,model,cv_rmse,holdout_rmse,note
+v2,phase1_01_svr_v2.ipynb,SVR,0.3606610788,0.3317870311,"Optuna + GridSearch, strongest single model"
+v2,phase1_02_lightgbm_v2.ipynb,LightGBM,1.3092912755,1.2605985883,Tree-based baseline after tuning
+v2,phase1_03_catboost_v2.ipynb,CatBoost,1.0041735128,0.9483886239,Best tree-based model in v2
+v9,phase2_01_stacking_v9_residual_meta.ipynb,SVR (OOF),0.3406,,Generalization-track baseline in stacking phase
+v9,phase2_01_stacking_v9_residual_meta.ipynb,LightGBM (OOF),1.27225,,Auxiliary base model
+v9,phase2_01_stacking_v9_residual_meta.ipynb,XGBoost (OOF),1.50727,,Auxiliary base model
+v9,phase2_01_stacking_v9_residual_meta.ipynb,Stacking (Ridge meta),0.3411214041,,No material gain over SVR
+v9,phase2_01_stacking_v9_residual_meta.ipynb,Stacking (Positive Linear meta),0.3410521995,,No material gain over SVR
+v10,phase3_01_formula_recovery_linear.ipynb,Linear Regression + pre_cal_rounded,,0.06,Formula-recovery benchmark
+v10,phase3_02_lightgbm_v10_feature_variant.ipynb,LightGBM base (3-fold CV),1.05545237,0.98,"Feature variant notebook, before tuning"
+v10,phase3_02_lightgbm_v10_feature_variant.ipynb,LightGBM Optuna (3-fold CV),0.3023809031,,"Feature variant notebook, tuned CV result"
