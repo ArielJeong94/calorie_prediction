@@ -6,6 +6,12 @@
 
 ## 🎯 Abstract
 
+<img width="1980" height="1061" alt="image" src="https://github.com/user-attachments/assets/ae5d3ffa-76dc-4036-82ed-1dbde14c9e77" />
+
+<img width="1071" height="238" alt="image" src="https://github.com/user-attachments/assets/06ee2c92-54c0-426b-a524-0ee182245f8a" />
+
+[최종 4위 기록]
+
 이 프로젝트는 **운동 시간, 심박수, 체온, 체중, 성별, 나이**와 같은 생체 데이터를 활용해 칼로리 소모량을 예측하는 회귀 모델을 개발한 해커톤 프로젝트다.  
 프로젝트는 크게 두 개의 흐름으로 진행되었다.
 
